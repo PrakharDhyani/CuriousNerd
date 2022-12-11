@@ -5,10 +5,13 @@ const postSChemea = mongoose.Schema({
         type: String,
         required: true,
     },
-    description: String,
+    desc: String,
     likes: [],
     image: String,
 },
     {
         timestamps: true
     });
+
+var postModel = mongoose.model("Posts", postSChemea);
+export default postModel;
