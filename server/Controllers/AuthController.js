@@ -14,7 +14,7 @@ export const registerUser = async (req, res) => {
     // when we try to save or interact with server use try and catch block
     try {
         const oldUser = await userModel.findOne({ username: username });
-        console.log(oldUser)
+        // console.log(oldUser)
         if (oldUser) {
             return res.status(400).json("user already is registered..!")
         }

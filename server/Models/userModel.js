@@ -26,12 +26,13 @@ const userSchema = mongoose.Schema(
         profilePicture: String,
         coverPicture: String,
         about: String,
-        Livesin: String,
+        livesin: String,
         worksAt: String,
         College: String,
         year: String,
         followers: [],
         following: [],
+        status: String
     },
     { timestamps: true }
 )

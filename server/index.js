@@ -14,11 +14,16 @@ import uploadRoute from "./Routes/uploadRoute.js"
 //Routes
 const app = express();
 
-// Middlewares 
+//to serve images for public
+app.use(express.static('public'))
+app.use("/public", express.static("public"))
+
+// Middlewares
 //limit : Controls the maximum request body size.
 // extended : The extended option allows to choose between parsing the
-//         URL - encoded data with the querystring library(when false) 
+//         URL - encoded data with the querystring library(when false)
 //          or the qs  library(when true).
+
 app.use(bodyParser.json({ limit: "30mb", extended: true }))
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }))
 app.use(cors());

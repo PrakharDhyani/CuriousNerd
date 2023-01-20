@@ -1,6 +1,6 @@
 import userModel from "../Models/userModel.js";
 import bcrypt from "bcrypt";
-
+import jwt from 'jsonwebtoken'
 //get a user 
 export const getUser = async (req, res) => {
     const id = req.params.id;
@@ -20,17 +20,20 @@ export const getUser = async (req, res) => {
 // update a user
 export const updateUser = async (req, res) => {
     const id = req.params.id;
-    console.log(id)
-    const { currentUserId, currentAdminStatus, password } = req.body;
-    if (currentAdminStatus || currentUserId === id) {
+    // console.log(id)
+    const { _id } = req.body;
+    if (_id === id) {
         try {
-            if (password) {
-                const salt = await bcrypt.genSalt(10);
-                req.body.password = await bcrypt.hash(password, salt);
-            }
             // passing the id to be changed and req.body (the data to be changed and {new:true} so to get the updated user as response)
             const user = await userModel.findByIdAndUpdate(id, req.body, { new: true })
-            res.status(200).json(user);
+            const token = jwt.sign(
+                { username: user.username, id: user._id },
+                process.env.JWT_KEY,
+                { expiresIn: "1h" }
+            );
+
+            console.log(user)
+            res.status(200).json({ user, token });
         } catch (error) {
             res.status(500).json(`MSG IS :${error}`);
         }
@@ -87,3 +90,19 @@ export const followUser = async (req, res) => {
         }
     }
 }
+// getAllUsers
+export const getAllUsers = async (req, res) => {
+    try {
+        // console.log("first")
+        const users = await userModel.find();
+        // console.log("second")
+        // users = users.map((user) => {
+        //     const { password, ...otherDetails } = user._doc
+        //     return otherDetails
+        // })
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+};
+
