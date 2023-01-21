@@ -46,8 +46,8 @@ export const updateUser = async (req, res) => {
 // Delete User
 export const deleteUser = async (req, res) => {
     const id = req.params.id;
-    const { currentAdminStatus, currentUserId } = req.body;
-    if (id === currentUserId || currentAdminStatus) {
+    const { currentAdminStatus, _id } = req.body;
+    if (id === _id || currentAdminStatus) {
         try {
             // it will not return the user as it will be deleted
             await userModel.findByIdAndDelete(id);
@@ -66,23 +66,23 @@ export const followUser = async (req, res) => {
     // id of person to be followed
     const id = req.params.id;
     // user id who want to follow
-    const { currentUserId } = req.body;
+    const { _id } = req.body;
     // no user allowed to follow himself/herself
-    if (id === currentUserId) {
+    if (id === _id) {
         res.status(403).json("Action Forbidden");
     }
     else {
         try {
-            const CurrentUser = await userModel.findById(currentUserId);
+            const CurrentUser = await userModel.findById(_id);
             const FollowedUser = await userModel.findById(id);
             if (!CurrentUser.following.includes(id)) {
                 await CurrentUser.updateOne({ $push: { following: id } })
-                await FollowedUser.updateOne({ $push: { followers: currentUserId } })
+                await FollowedUser.updateOne({ $push: { followers: _id } })
                 res.status(200).json("User Followed")
             }
             else {
                 await CurrentUser.updateOne({ $pull: { following: id } })
-                await FollowedUser.updateOne({ $pull: { followers: currentUserId } })
+                await FollowedUser.updateOne({ $pull: { followers: _id } })
                 res.status(200).json("User unFollowed")
             }
         } catch (error) {

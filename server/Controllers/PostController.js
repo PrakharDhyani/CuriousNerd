@@ -68,6 +68,7 @@ export const deletePost = async (req, res) => {
 
 // like/dislike a post
 export const likePost = async (req, res) => {
+    console.log("server")
     const { userId } = req.body;
     const id = req.params.id;
     try {
@@ -104,7 +105,7 @@ export const getTimeLinePosts = async (req, res) => {
                     _id: new mongoose.Types.ObjectId(userId)
                 }
             },
-            {
+            {  
                 $lookup: {
                     //postModel name in db -> posts
                     from: "posts",
