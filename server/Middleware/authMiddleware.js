@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 const secret = process.env.JWT_KEY;
-const authMiddleWare = async (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
     try {
         const token = req.headers.authorization.split(" ")[1];
         console.log(token)
@@ -18,4 +18,4 @@ const authMiddleWare = async (req, res, next) => {
     }
 };
 
-export default authMiddleWare;
+export default authMiddleware;
