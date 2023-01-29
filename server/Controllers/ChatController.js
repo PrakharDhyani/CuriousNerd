@@ -2,19 +2,18 @@ import chatModel from "../Models/chatModel.js"
 
 
 export const createChat = async (req, res) => {
-    console.log(req.body.senderId)
-    console.log(req.body.receiverId)
-
+    console.log("create chat", req.body.senderId, req.body.receiverId);
     const newChat = new chatModel({
         members: [req.body.senderId, req.body.receiverId]
     });
     try {
         const result = await newChat.save();
         res.status(200).json(result);
-    } catch (error) {
+    }   catch (error) {
         res.status(500).json(error);
     }
 }
+
 export const userChat = async (req, res) => {
     try {
         const chat = await chatModel.find({
@@ -26,7 +25,6 @@ export const userChat = async (req, res) => {
     }
 }
 export const findChat = async (req, res) => {
-
     try {
         const chat = await chatModel.findOne({
             members: { $all: [req.params.firstId, req.params.secondId] }
