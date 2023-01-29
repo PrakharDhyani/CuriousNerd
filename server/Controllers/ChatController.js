@@ -2,14 +2,17 @@ import chatModel from "../Models/chatModel.js"
 
 
 export const createChat = async (req, res) => {
-    console.log("create chat", req.body.senderId, req.body.receiverId);
     const newChat = new chatModel({
         members: [req.body.senderId, req.body.receiverId]
     });
     try {
+        const chat = await chatModel.findOne({
+            members: { $all: [req.body.senderId, req.body.receiverId] }
+        });
+        if (chat) return res.status(200).json(chat);
         const result = await newChat.save();
         res.status(200).json(result);
-    }   catch (error) {
+    } catch (error) {
         res.status(500).json(error);
     }
 }
