@@ -33,9 +33,10 @@ dotenv.config()
 
 
 const PORT = process.env.PORT;
+
 mongoose.connect(process.env.Mongo_DB, { useNewURLParser: true, useUnifiedTopology: true }).then(() => {
-    app.listen(PORT, () => {
-        console.log(`app is listening at ${PORT}`)
+    app.listen(process.env.PORT || 5000, () => {
+        console.log(`app is listening at ${process.env.PORT || 5000}`)
     })
 })
     .catch((error) => { console.error(); })
