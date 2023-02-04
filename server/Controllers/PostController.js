@@ -50,8 +50,8 @@ export const updatePost = async (req, res) => {
 
 // delete a post
 export const deletePost = async (req, res) => {
-    const postId = req.params.id;
-    const { userId } = req.body;
+    const { postId, userId } = req.params;
+    // console.log(userId)
     try {
         const post = await postModel.findById(postId);
         if (post.userId === userId) {
@@ -105,7 +105,7 @@ export const getTimeLinePosts = async (req, res) => {
                     _id: new mongoose.Types.ObjectId(userId)
                 }
             },
-            {  
+            {
                 $lookup: {
                     //postModel name in db -> posts
                     from: "posts",

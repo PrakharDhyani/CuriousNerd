@@ -11,7 +11,7 @@ router.get("/:id", getPost);
 // update a post
 router.put("/:id", updatePost);
 // delete POst 
-router.delete("/:id", deletePost);
+router.delete("/:postId/:userId", deletePost);
 //like/dislike a post
 router.put("/:id/like", likePost);
 // get timeline posts of the (userPOst + following User Posts)
